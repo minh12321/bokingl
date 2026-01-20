@@ -1,18 +1,18 @@
 export const API_URL = {
   AUTH: {
-    REGISTER: "/api/v1/auth/register",
-    LOGIN: "/api/v1/auth/login",
-    REFRESH: "/api/v1/auth/refresh",
-    LOGOUT: "/api/v1/auth/logout",
+    REGISTER: "http://localhost:3000/api/v1/users/auth/register",
+    LOGIN: "http://localhost:3000/api/v1/users/auth/login",
+    REFRESH: "http://localhost:3000/api/v1/auth/refresh",
+    LOGOUT: "http://localhost:3000/api/v1/auth/logout",
   },
 
   USER: {
-    PROFILE: "/api/v1/users/profile",
-    PASSWORD: "/api/v1/users/password",
+    PROFILE: "http://localhost:3000/api/v1/users/profile",
+    PASSWORD: "http://localhost:3000/api/v1/users/password",
   },
 
   ADMIN_USER: {
-    LIST: "/api/v1/admin/users",
-    DETAIL: (uuid: string) => `/api/v1/admin/users/${uuid}`,
+    LIST: "http://localhost:3000/api/v1/admin/users",
+    DETAIL: (uuid: string) => `http://localhost:3000/api/v1/admin/users/${uuid}`,
   },
 };

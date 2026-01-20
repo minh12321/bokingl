@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from "react-router-dom";
+
+
 import { 
   Calendar, 
   Menu, 
@@ -20,6 +23,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const { language, setLanguage, t } = useLanguage();
   const { theme, toggleTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +36,19 @@ const Navbar = () => {
     { path: '/services', label: t('nav.services') },
     { path: '/booking', label: t('nav.booking') },
     { path: '/dashboard', label: t('nav.dashboard') },
+    { path: '/lo', label: t('nav.login') },
   ];
+
+  const [showA, setShowA] = useState(true);
+  const [showB, setShowB] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const login = localStorage.getItem("login");
+    setIsLoggedIn(login === "true");
+  }, []);
+
+
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-border">
@@ -89,7 +105,7 @@ const Navbar = () => {
             </DropdownMenu>
 
             {/* Theme Toggle */}
-            <Button variant="ghost" size="icon" onClick={toggleTheme} className="w-9 h-9">
+            <Button variant="ghost" size="icon" onClick={toggleTheme} className="w-9 h-9" >
               {theme === 'light' ? (
                 <Moon className="w-4 h-4" />
               ) : (
@@ -98,13 +114,43 @@ const Navbar = () => {
             </Button>
 
             {/* Auth Buttons */}
-            <Button variant="ghost" className="text-sm">
+
+            {!isLoggedIn ? (
+              <>
+                <Button
+                  variant="ghost"
+                  className="text-sm"
+                  onClick={() => navigate("/lo")}
+                >
+                  {t("nav.login")}
+                </Button>
+
+                <Button
+                  className="text-sm gradient-primary text-primary-foreground hover:opacity-90"
+                  onClick={() => navigate("/lo")}
+                >
+                  {t("nav.signup")}
+                </Button>
+              </>
+            ) : (
+              <Button
+                variant="outline"
+                onClick={() => {
+                  localStorage.removeItem("login");
+                  setIsLoggedIn(false);
+                  navigate("/lo");
+                }}
+              >
+                Đăng xuất
+              </Button>
+            )}
+            {/* <Button variant="ghost" className="text-sm" onClick={() => navigate("/lo")}>
               {t('nav.login')}
             </Button>
-            <Button className="text-sm gradient-primary text-primary-foreground hover:opacity-90">
+            <Button className="text-sm gradient-primary text-primary-foreground hover:opacity-90" onClick={() => navigate("/lo")}>
               {t('nav.signup')}
-            </Button>
-          </div>
+            </Button>*/}
+          </div> 
 
           {/* Mobile Menu Button */}
           <button
@@ -154,10 +200,10 @@ const Navbar = () => {
                 </DropdownMenu>
               </div>
               <div className="flex flex-col gap-2 px-4 pt-4">
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full" onClick={() => navigate("/lo")}>
                   {t('nav.login')}
-                </Button>
-                <Button className="w-full gradient-primary text-primary-foreground">
+                </Button >
+                <Button className="w-full gradient-primary text-primary-foreground" onClick={() => navigate("/lo")}>
                   {t('nav.signup')}
                 </Button>
               </div>

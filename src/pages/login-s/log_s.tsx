@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Mail, Lock, User, ArrowRight, Github, Chrome, Twitter, Globe, LogOut } from 'lucide-react';
 import { authApi } from '@/api/auth.api';
-
+import { useNavigate } from 'react-router-dom';
 // --- TEXT DICTIONARY (Từ điển ngôn ngữ) ---
 const translations = {
   vi: {
@@ -141,10 +141,11 @@ export default function App() {
       });
 
       const data = response.data;
-      const { accessToken } = response.data;
+      const { access_token } = response.data;
 
-      if (accessToken) {
-        localStorage.setItem("accessToken", accessToken);
+      if (access_token) {
+        localStorage.setItem("accessToken", access_token);
+        localStorage.setItem("login", "true");
         setIsLoggedIn(true);
 
         alert("Login successful!");
@@ -190,29 +191,10 @@ export default function App() {
     setIsLoggedIn(false);
     setFormData({ name: '', email: '', password: '' });
   };
-
+  const nav =useNavigate();
   // --- HOME VIEW (Sau khi đăng nhập) ---
-  if (isLoggedIn) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC] font-sans p-4">
-        <div className="bg-white rounded-[2rem] shadow-2xl p-10 text-center w-full max-w-md animate-show">
-          <div className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6 text-indigo-600">
-             <User size={40} />
-          </div>
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">{t.welcomeHome}</h1>
-          <p className="text-gray-500 mb-6">{t.loggedInAs}</p>
-          <code className="block bg-gray-100 p-3 rounded-lg text-xs text-gray-600 break-all mb-8">
-            {localStorage.getItem('token')}
-          </code>
-          <button 
-            onClick={handleLogout}
-            className="bg-red-500 text-white font-bold py-3 px-10 rounded-xl hover:bg-red-600 active:scale-95 transition-all duration-300 shadow-lg shadow-red-200 flex items-center justify-center gap-2 w-full"
-          >
-            <LogOut size={18} /> {t.btnLogout}
-          </button>
-        </div>
-      </div>
-    );
+  if (localStorage.getItem("login")=="true") {
+    nav("/")
   }
 
   return (
