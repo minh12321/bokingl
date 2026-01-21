@@ -17,6 +17,8 @@ export const translations: Translations = {
   'nav.dashboard': { en: 'Dashboard', vi: 'Quản lý' },
   'nav.login': { en: 'Log In', vi: 'Đăng nhập' },
   'nav.signup': { en: 'Sign Up Free', vi: 'Đăng ký miễn phí' },
+  'nav.logout': { en: 'logout', vi: 'Đăng xuất' },
+  'nav.info': { en: 'I', vi: 'i' },
   
   // Hero
   'hero.title': { en: 'Easy scheduling ahead', vi: 'Đặt lịch dễ dàng' },

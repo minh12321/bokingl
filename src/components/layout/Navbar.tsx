@@ -168,6 +168,7 @@ const Navbar = () => {
                 </Button>
               </>
             ) : (
+              <>
               <Button
                 variant="outline"
                 onClick={() => {
@@ -176,8 +177,14 @@ const Navbar = () => {
                   navigate("/lo");
                 }}
               >
-                Đăng xuất
+                {t("nav.logout")}
               </Button>
+              <Button
+                  className="text-sm gradient-primary text-primary-foreground hover:opacity-90 rounded-full"
+                  onClick={() => navigate("/profile")}
+                >
+                  {t("nav.info")}
+                </Button></>
             )}
           </div> 
 
@@ -240,6 +247,7 @@ const Navbar = () => {
               
               </>
             ) : (
+              <>
               <Button
                 variant="outline"
                 onClick={() => {
@@ -248,8 +256,14 @@ const Navbar = () => {
                   navigate("/lo");
                 }}
               >
-                Đăng xuất
+                {t("nav.logout")}
               </Button>
+              <Button
+                  className="w-full gradient-primary text-primary-foreground "
+                  onClick={() => navigate("/profile")}
+                >
+                  {t("nav.info")}
+                </Button></>
             )}</div>
               
             </div>
