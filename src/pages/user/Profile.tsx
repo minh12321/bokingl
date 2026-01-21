@@ -1,20 +1,48 @@
 import React, { useState } from 'react';
 import { User, Mail, Phone, Lock, Camera, Save, ShieldCheck, Eye,  EyeOff, CheckCircle2,AlertCircle,Sparkles,Pencil,ArrowLeft,X             } from 'lucide-react';
 import Layout from '@/components/layout/Layout';
+import { userApi } from '@/api/User.api';
 
 export default function UserProfile() {
-  // State quản lý chế độ chỉnh sửa
   const [isEditing, setIsEditing] = useState(false);
 
-  // Mock Data: Thông tin người dùng
+  const un = JSON.parse(localStorage.getItem("user"));
+
+  const save = async()=>{
+    try{
+        const res = await userApi.updateProfile({
+            full_name: userInfo.fullName,
+            email: userInfo.email,
+            phone: userInfo.phone,
+            })
+        }
+        catch(error)
+        {
+            console.error(error);
+            alert("thay đổi thất bại");
+        }
+    if(passwordForm.currentPassword){
+    try{
+        const res = await userApi.changePassword({
+            old_password:passwordForm.currentPassword,
+            new_password:passwordForm.newPassword,
+            })
+        }
+        catch(error)
+        {
+            console.error(error);
+            alert("thay đổi thất bại");
+        }  
+    }
+  }
+
   const [userInfo, setUserInfo] = useState({
-    fullName: 'Nguyễn Văn A',
-    email: 'nguyen.vana@example.com',
-    phone: '0901234567',
-    avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+    fullName: un.full_name,
+    email: un.email,
+    phone: un.phone,
+    avatar: ''
   });
 
-  // State cho form đổi mật khẩu
   const [passwordForm, setPasswordForm] = useState({
     currentPassword: '',
     newPassword: '',
@@ -67,6 +95,7 @@ export default function UserProfile() {
       return;
     }
 
+    save();
 
     setTimeout(() => {
       setIsLoading(false);

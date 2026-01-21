@@ -1,5 +1,9 @@
-const url = process.env.URL_LOADOUT;
 
+
+const url = import.meta.env.VITE_URL_LOADOUT;
+if (!url) {
+  throw new Error("VITE_URL_LOADOUT is not defined");
+}
 export const API_URL = {
   AUTH: {
     REGISTER: `${url}/api/v1/users/auth/register`,

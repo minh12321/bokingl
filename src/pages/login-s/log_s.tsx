@@ -3,6 +3,7 @@ import { Mail, Lock, User, ArrowRight, Github, Chrome, Twitter, Globe, LogOut } 
 import { authApi } from '@/api/auth.api';
 import { useNavigate } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
+import { userApi } from '@/api/User.api';
 // --- TEXT DICTIONARY (Từ điển ngôn ngữ) ---
 const translations = {
   vi: {
@@ -143,7 +144,17 @@ export default function App() {
       if (access_token) {
         localStorage.setItem("accessToken", access_token);
         localStorage.setItem("login", "true");
-        setIsLoggedIn(true);
+        const fetchUser = async () => {
+              try {
+                const res = await userApi.getProfile();
+                localStorage.setItem("user",JSON.stringify(res.data)); 
+              } catch (error) {
+                console.error(error);
+              }
+            };
+        
+            fetchUser();
+        // setIsLoggedIn(true);
 
         alert("Login successful!");
 

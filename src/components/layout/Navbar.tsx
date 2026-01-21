@@ -37,6 +37,11 @@ const Navbar = () => {
   const isActive = (path: string) => location.pathname === path;
   const [activeMenu, setActiveMenu] = useState<"main" | "services">("main");
 
+  const un = JSON.parse(localStorage.getItem("user"));
+
+
+  const unf =un.full_name.charAt(0);
+
 
   const navLinks = [
     { path: '/', label: t('nav.home') },
@@ -181,9 +186,9 @@ const Navbar = () => {
               </Button>
               <Button
                   className="text-sm gradient-primary text-primary-foreground hover:opacity-90 rounded-full"
-                  onClick={() => navigate("/profile")}
+                  onClick={() => navigate("/profile")} 
                 >
-                  {t("nav.info")}
+                  {unf}
                 </Button></>
             )}
           </div> 
@@ -251,7 +256,7 @@ const Navbar = () => {
               <Button
                 variant="outline"
                 onClick={() => {
-                  localStorage.removeItem("login");
+                  localStorage.removeItem("accessToken");
                   setIsLoggedIn(false);
                   navigate("/lo");
                 }}
