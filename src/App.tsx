@@ -12,6 +12,7 @@ import Booking from "./pages/Booking";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import Log_s from "./pages/login-s/log_s"
+import UserProfile from "./pages/user/Profile";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ const App = () => (
             <Sonner />
             <BrowserRouter>
               <Routes>
+                <Route path="/profile" element={<UserProfile />} />
                 <Route path="/" element={<Index />} />
                 <Route path="/lo" element={<Log_s />} />
                 <Route path="/services" element={<Services />} />
