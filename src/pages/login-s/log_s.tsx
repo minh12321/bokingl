@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Mail, Lock, User, ArrowRight, Github, Chrome, Twitter, Globe, LogOut } from 'lucide-react';
 import { authApi } from '@/api/auth.api';
 import { useNavigate } from 'react-router-dom';
+import Layout from '@/components/layout/Layout';
 // --- TEXT DICTIONARY (Từ điển ngôn ngữ) ---
 const translations = {
   vi: {
@@ -63,7 +64,6 @@ const translations = {
     overlayLoginText: "To keep connected with us please login with your personal info.",
     overlayBtnRegister: "Sign Up Now",
 
-    // Home translations
     welcomeHome: "Welcome to Home Page!",
     loggedInAs: "You are logged in with token:",
     btnLogout: "Log Out"
@@ -71,8 +71,6 @@ const translations = {
 };
 
 type LangType = 'vi' | 'en';
-
-// --- COMPONENTS ---
 
 const SocialButton = ({ icon: Icon }: { icon: any }) => (
   <button className="h-10 w-10 border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors duration-300 text-gray-600 hover:text-indigo-600 hover:border-indigo-300">
@@ -123,7 +121,6 @@ export default function App() {
   const toggleMode = () => setIsSignUp(!isSignUp);
   const toggleLang = () => setLang(l => l === 'vi' ? 'en' : 'vi');
 
-  // Handle Input Change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -192,12 +189,12 @@ export default function App() {
     setFormData({ name: '', email: '', password: '' });
   };
   const nav =useNavigate();
-  // --- HOME VIEW (Sau khi đăng nhập) ---
   if (localStorage.getItem("login")=="true") {
     nav("/")
   }
 
   return (
+    <Layout>
     <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC] font-sans p-4 relative overflow-hidden transition-colors duration-500">
       
       <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-200/20 rounded-full blur-[100px]" />
@@ -363,6 +360,6 @@ export default function App() {
       <div className="absolute bottom-4 text-gray-400 text-xs text-center w-full">
         &copy; 2024 Your Company. Designed with React & Tailwind.
       </div>
-    </div>
+    </div></Layout>
   );
 }

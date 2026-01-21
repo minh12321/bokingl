@@ -51,7 +51,7 @@ const Footer = () => {
               <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center">
                 <Calendar className="w-5 h-5 text-primary-foreground" />
               </div>
-              <span className="text-xl font-bold text-foreground">Calendly</span>
+              <span className="text-xl font-bold text-foreground">Cắn đá</span>
             </Link>
             <p className="text-sm text-muted-foreground mb-4">
               Easy scheduling ahead.

@@ -4,6 +4,9 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from "react-router-dom";
+import { useScrollDirection } from "@/hooks/useScrollDirection";
+import clsx from "clsx";
+import { motion, AnimatePresence } from "framer-motion";
 
 
 import { 
@@ -22,14 +25,18 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
+
+
 const Navbar = () => {
   const navigate = useNavigate();
   const { language, setLanguage, t } = useLanguage();
   const { theme, toggleTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-
+  const direction = useScrollDirection(12);
   const isActive = (path: string) => location.pathname === path;
+  const [activeMenu, setActiveMenu] = useState<"main" | "services">("main");
+
 
   const navLinks = [
     { path: '/', label: t('nav.home') },
@@ -51,7 +58,14 @@ const Navbar = () => {
 
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-border">
+    <nav
+      className={clsx(
+        "fixed top-0 left-0 right-0 z-50",
+        "glass border-b border-border",
+        "transition-transform duration-300 ease-out",
+        direction === "down" ? "-translate-y-full" : "translate-y-0"
+      )}
+    >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -59,24 +73,45 @@ const Navbar = () => {
             <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center transition-transform group-hover:scale-110">
               <Calendar className="w-5 h-5 text-primary-foreground" />
             </div>
-            <span className="text-xl font-bold text-foreground">Calendly</span>
+            <span className="text-xl font-bold text-foreground">Cắn đá</span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  isActive(link.path)
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+          <div className="hidden md:flex items-center gap-1 relative">
+            {navLinks.map((link) => {
+              const active = isActive(link.path);
+
+              return (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className="relative px-4 py-2 text-sm font-medium"
+                >
+                  {active && (
+                    <motion.span
+                      layoutId="nav-indicator"
+                      className="absolute inset-0 rounded-lg bg-primary"
+                      transition={{
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 30,
+                      }}
+                    />
+                  )}
+
+                  <span
+                    className={clsx(
+                      "relative z-10 transition-colors",
+                      active
+                        ? "text-primary-foreground"
+                        : "text-muted-foreground hover:text-foreground"
+                    )}
+                  >
+                    {link.label}
+                  </span>
+                </Link>
+              );
+            })}
           </div>
 
           {/* Right Actions */}
@@ -144,12 +179,6 @@ const Navbar = () => {
                 Đăng xuất
               </Button>
             )}
-            {/* <Button variant="ghost" className="text-sm" onClick={() => navigate("/lo")}>
-              {t('nav.login')}
-            </Button>
-            <Button className="text-sm gradient-primary text-primary-foreground hover:opacity-90" onClick={() => navigate("/lo")}>
-              {t('nav.signup')}
-            </Button>*/}
           </div> 
 
           {/* Mobile Menu Button */}
@@ -200,13 +229,29 @@ const Navbar = () => {
                 </DropdownMenu>
               </div>
               <div className="flex flex-col gap-2 px-4 pt-4">
+              {!isLoggedIn ? (
+              <>
                 <Button variant="outline" className="w-full" onClick={() => navigate("/lo")}>
                   {t('nav.login')}
                 </Button >
                 <Button className="w-full gradient-primary text-primary-foreground" onClick={() => navigate("/lo")}>
                   {t('nav.signup')}
                 </Button>
-              </div>
+              
+              </>
+            ) : (
+              <Button
+                variant="outline"
+                onClick={() => {
+                  localStorage.removeItem("login");
+                  setIsLoggedIn(false);
+                  navigate("/lo");
+                }}
+              >
+                Đăng xuất
+              </Button>
+            )}</div>
+              
             </div>
           </div>
         )}

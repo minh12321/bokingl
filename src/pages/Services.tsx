@@ -3,6 +3,7 @@ import Layout from '@/components/layout/Layout';
 import ServiceCard from '@/components/services/ServiceCard';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useBooking } from '@/contexts/BookingContext';
+import { AutoReveal } from '@/components/Autoreveal';
 
 const Services = () => {
   const { t } = useLanguage();
@@ -10,6 +11,7 @@ const Services = () => {
 
   return (
     <Layout>
+      <AutoReveal>
       <section className="py-16">
         <div className="container mx-auto px-4">
           {/* Header */}
@@ -36,6 +38,7 @@ const Services = () => {
           </div>
         </div>
       </section>
+      </AutoReveal>
     </Layout>
   );
 };
