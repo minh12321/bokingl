@@ -38,9 +38,8 @@ const Navbar = () => {
   const [activeMenu, setActiveMenu] = useState<"main" | "services">("main");
 
   const un = JSON.parse(localStorage.getItem("user"));
-
-
-  const unf =un.full_name.charAt(0);
+  const unf = un?.full_name?.charAt(0) ?? "";
+  
 
 
   const navLinks = [
